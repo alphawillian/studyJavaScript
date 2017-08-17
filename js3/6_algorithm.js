@@ -45,15 +45,17 @@ function dimensionsArrInit1(){
 		arr.shift();
 		for (var i = 0; i < currentLen; i++) {
 			if(i == 0){
-				ansArr[i] = dimensionsArrInit1(arr);
+				ansArr[i] = dimensionsArrInit1(arr).slice(0);
 			}else{
-				ansArr[i] = ansArr[i - 1];
+				ansArr[i] = ansArr[i - 1].slice(0);
 			}
 		}
 		return ansArr;
 	}
 }
-var test = [4,2,2,3];
-console.log(test.dimensionsArrInit());
+var test = [2,2,2];
+var test1 = test.dimensionsArrInit();
+console.log(test);
+console.log(test1);
 //console.log(dimensionsArrInit1([2,2,3]));
 
