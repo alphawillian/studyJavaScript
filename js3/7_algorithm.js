@@ -37,30 +37,27 @@ function count(str){
 function findMaxForms(arr, m, n){
 //	var dp = [arr.length+1, m+1, n+1];
 //	dp = dp.dimensionsArrInit();
-    var dp = [[[0]]];
-	for(var n1 = 0; n <= 6; n++){
-		for(var n2 = 0; n2 <= 6; n2++){
-			for(var n3 = 0; n3 <= 4; n3++){
-				dp[n1][n2][n3] = 0;
-			}
-		}
-	}
-	console.log(dp);
-	return 0;
+    var dp = [[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
+			[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
+		    [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
+		    [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
+		    [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
+		    [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]];
+	
 	for (var i = 1; i <= arr.length; i++){
 		var cost = count(arr[i - 1]);
 		for (var j = 0; j <= m; j++){
 			for (var k = 0; k <= n; k++){
 				if(j >= cost[0] && k >= cost[1]){
 					dp[i][j][k] = Math.max(dp[i - 1][j][k],dp[i - 1][j - cost[0]][k - cost[1]] + 1);
-					console.log(dp[i][j][k]);
+//					console.log(dp[i][j][k]);
 				}else{
 					dp[i][j][k] = dp[i - 1][j][k];
 				}
 			}
 		}
 	}
-//	return dp[arr.length][m][n];
-	return dp;
+	return dp[arr.length][m][n];
+//	return dp;
 }
 console.log( findMaxForms(arr,m,n) );
