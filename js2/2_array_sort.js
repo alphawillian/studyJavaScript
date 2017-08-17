@@ -8,16 +8,23 @@ function deAscending(arr){
 	return arr.sort(compareCanonically).reverse();
 }
 function compareCanonically(a,b){
-	return a <= b ? 0 : 1;
+	return a < b ? -1 : 1;
 }
-var arr = [1,3,5,7,9,2,4,6,8,0];
+var arr = [1,3,5,7,9,2,4,6,8,0,11];
 //console.log(ascending(arr));
 //console.log(deAscending(arr));
 //console.log(arr);
-Array.prototype.asc = function(){
+Array.prototype.ascending = function(){
 	return this.sort(compareCanonically);
 }
-arr.asc();
-console.log(arr);
+Array.prototype.deAscending = function(){
+//	return this.sort(-1);
+}
+console.log(ascending(arr));
+console.log(deAscending(arr));
+//arr.ascending();
+//console.log(arr);
+//arr.deAscending();
+//console.log(arr);
 
 
