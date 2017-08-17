@@ -1,0 +1,236 @@
+750/320 = 2.34375
+
+1:分页加载
+//加载新的页面
+function loadPage(){
+	if($(window).scrollTop()+$(window).height() >= $(document.body).height()){
+		//页面滚动高度加上屏幕高度 >= 页面高度
+		//此时需要进行的操作
+		//此时一般是进行ajax数据请求 根据数据进行页面渲染
+	}
+}
+
+2:微信里阻止上下滑动出现网址的code
+	document.addEventListener('touchmove', function (e){ e.preventDefault(); }, false);
+	
+3:微信页面更新title
+function setPageTitle(title){
+	//需要jQuery
+    var $body = $('body');
+	document.title = title;
+    //hack在微信等webview中无法修改document.title的情况
+    var $iframe = $('<iframe src="/favicon.ico"></iframe>');
+    $iframe.on('load',function() {
+        setTimeout(function() {
+            $iframe.off('load').remove();
+        }, 0);
+    }).appendTo($body);
+}
+
+4://获取url中的参数
+function getUrlParam(name){
+	var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); 
+	var r = window.location.search.substr(1).match(reg);
+	if (r!=null) 
+		return unescape(r[2]); 
+	else
+		return null; //返回参数值
+}
+
+5://jq通过属性值获取元素
+	//获取id为unOpenRedList下li 自定义属性datacode值为redCode 的元素
+	$("#unOpenRedList li[datacode="+redCode+"]")
+	
+	//获取id为unOpenRedList下li 自定义属性datacode值为redCode元素下class为redCheck的元素
+	$("#redPacketList li[redcode="+redCode+"] .redCheck")
+	
+6://jq的事件委托
+	对元素id为redPacketList 下的li元素的click 点击事件进行委托
+	$("#redPacketList").delegate("li","click",function(){
+        //do something;
+    });
+7://将字符串里的非数字变为""就变成了纯数字   
+	str.replace(/[^0-9]/ig,"")
+	var str1 = "您有5个未拆红包";
+	var str2 = "您有5个1未拆红包";
+	var str3 = "您有5个.2未拆红包";
+	var str4 = "您有5个3未.拆红包";
+	var str5 = "您有5个4未 拆.@红4包";
+	var v1 = str1.replace(/[^0-9]/ig,"");		//5
+	var v2 = str2.replace(/[^0-9]/ig,"");		//51
+	var v3 = str3.replace(/[^0-9]/ig,"");		//52
+	var v4 = str4.replace(/[^0-9]/ig,"");		//53
+	var v5 = str5.replace(/[^0-9]/ig,"");		//544
+	
+8://data.obj这个对象里是否有has_history 这个字段
+	if("has_history" in data.obj){
+        has_history = data.obj.has_history;
+    }
+    
+9://定义预加载图片列表的函数(有参数)
+	jQuery.preloadImages = function(){
+		for(var i = 0; i<arguments.length; i++){
+			jQuery("<img>").attr("src", arguments[i]); 
+			
+			}
+	}
+	$.preloadImages("/images/redBg_2x.png", "images/redBackBg_2x.png");
+10://区分是ios浏览器还是android的浏览器
+	if(getBrowserType().ios){
+        //if the browser is ios then do something
+    }
+    if(getBrowserType().android){
+    	//if the browser is android then do something
+    }
+    
+    function getBrowserType(){
+		var Sys = {};
+		var ua = navigator.userAgent.toLowerCase();
+		var s;
+		(s = ua.indexOf('android') > -1 || ua.indexOf('linux') > -1) ? Sys.android = true :
+		(s = ua.match(/\(i[^;]+;( u;)? cpu.+mac os x/)) ? Sys.ios = true :
+		(s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] :
+		(s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] :
+		(s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] :
+		(s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] :
+		(s = ua.match(/version\/([\d.]+).+safari/)) ? Sys.safari = s[1] : 0;
+		return Sys;
+	}
+    
+11:Question:不知道浮点数位数时应该怎样判断两个浮点数之和与第三数是否相等?
+	
+	1:浮点类型的在任何机器的上都不能直接判断相等.
+	2:可以用差值来来间接判断, 比如 差值小于0.0005就认为相等,具体看业务对精度的要求.
+	3:比如 console.log(Math.abs(0.1 + 0.2 - 0.3) <= 1e-6);
+	
+12:判断图片是否有前缀
+	function prefixImg(imageUrl){
+	    var urlFix =  imageUrl.indexOf("http://huishouimages.anewlives.cn") >= 0 ? imageUrl : "http://huishouimages.anewlives.cn"+imageUrl;
+	    return urlFix;
+	}
+13:用于获取某个元素相对于视窗的位置集合。
+	getBoundingClientRect();
+	1.用于获取某个元素相对于视窗的位置集合。集合中有top, right, bottom, left等属性。
+	2.返回值类型：TextRectangle对象，每个矩形具有四个整数性质（ 上， 右 ， 下，和左 ）表示的坐标的矩形，以像素为单位。
+	　rectObject.top：元素上边到视窗上边的距离;
+	　rectObject.right：元素右边到视窗左边的距离;
+	　rectObject.bottom：元素下边到视窗上边的距离;
+	　rectObject.left：元素左边到视窗左边的距离;
+14:判断对象中是否有某字段
+	obj.hasOwnProperty("key");
+15://获取url中的参数
+	function getUrlParam(name){
+		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); 
+		var r = window.location.search.substr(1).match(reg);
+		if (r!=null) 
+			return unescape(r[2]); 
+		else
+			return null; //返回参数值
+	}
+16:检查用户是否登录
+if((is_weixin()&&!$.checkLogin())||(!is_weixin()&&(access_token == "taikoo"||access_token == ""))) {
+	do something;
+	//$.redirectLogin_changeJump("/service/promotions/cumulateBuy.jsp?code=<%=code%>","登录后查看累积桶数");
+}
+17:获取用户信息
+$(function(){
+		if(is_weixin()){
+			initPage();
+		}else{
+			getAppUserinfo();
+			initPage();
+		}
+	});
+	function getAppUserinfo(){
+		if(getBrowserType().ios){
+			setupWebViewJavascriptBridge(function(bridge) {
+			    bridge.registerHandler("functionInJs", function(data, responseCallback) {
+			    	access_token=data.access_token;
+			    	platform=data.platform;
+					vc=data.vc;
+			    });
+			});
+		}else if (getBrowserType().android){
+			connectWebViewJavascriptBridge(function(bridge) {
+			    bridge.init(function(message, responseCallback) {});
+			    
+			    bridge.registerHandler("functionInJs", function(data, responseCallback) {
+			    	access_token=data.access_token;
+			    	platform=data.platform;
+					vc=data.vc;
+			    });
+			});
+		}
+	}
+18:微信页面和客户端拨打电话
+if(window.WebViewJavascriptBridge){
+    WebViewJavascriptBridge.callHandler("callPhone","tel:"+phonefixNumber);
+}else{
+    location.href = 'tel:'+phonefixNumber;
+}
+19:App复用微信页面时，member/会检查登录需要在url后拼接字符串
+var urlParam="access_token="+access_token+"&platform="+platform+"&version="+version+"&quanpicha=UlVORkFTVA==RUNUlVOVE9VR0g=";
+
+20：获取屏幕这种宽度高度
+function a(){
+	document.write(
+	"屏幕分辨率为："+screen.width+"*"+screen.height
+	+"<br />"+
+	"屏幕可用大小："+screen.availWidth+"*"+screen.availHeight
+	+"<br />"+
+	"网页可见区域宽："+document.body.clientWidth
+	+"<br />"+
+	"网页可见区域高："+document.body.clientHeight
+	+"<br />"+
+	"网页可见区域宽(包括边线的宽)："+document.body.offsetWidth
+	+"<br />"+
+	"网页可见区域高(包括边线的宽)："+document.body.offsetHeight
+	+"<br />"+
+	"网页正文全文宽："+document.body.scrollWidth
+	+"<br />"+
+	"网页正文全文高："+document.body.scrollHeight
+	+"<br />"+
+	"网页被卷去的高："+document.body.scrollTop
+	+"<br />"+
+	"网页被卷去的左："+document.body.scrollLeft
+	+"<br />"+
+	"网页正文部分上："+window.screenTop
+	+"<br />"+
+	"网页正文部分左："+window.screenLeft
+	+"<br />"+
+	"屏幕分辨率的高："+window.screen.height
+	+"<br />"+
+	"屏幕分辨率的宽："+window.screen.width
+	+"<br />"+
+	"屏幕可用工作区高度："+window.screen.availHeight
+	+"<br />"+
+	"屏幕可用工作区宽度："+window.screen.availWidth
+	)
+}
+
+21:防止页面被iframe插入（可以防止广告）
+    if(top.location!==self.location){top.location.href=self.location.href; }
+    
+22:jsp页面里的的if else
+	<%if(boolean){%>
+		//some HTML
+	<%}else{%>
+		//other HTML
+	<%}%>
+
+23:阻止事件冒泡
+	$("#Id").on("click",function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        //then do something
+    });
+    
+
+
+
+
+
+
+
+
+
